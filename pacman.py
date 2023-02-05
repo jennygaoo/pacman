@@ -16,9 +16,7 @@ Trollicon=pygame.image.load('images/Trollman.png')
 pygame.display.set_icon(Trollicon)
 
 #Add music
-pygame.mixer.init()
-pygame.mixer.music.load('pacman.mp3')
-pygame.mixer.music.play(-1, 0.0)
+# TODO: initialize, load, and play the music
 
 # This class represents the bar at the bottom that the player controls
 class Wall(pygame.sprite.Sprite):
@@ -27,14 +25,15 @@ class Wall(pygame.sprite.Sprite):
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
   
-        # Make a blue wall, of the size specified in the parameters
-        self.image = pygame.Surface([width, height])
-        self.image.fill(color)
+
+        # TODO: make a wall given the dimensions - use pygame.Surface()
+        # TODO: fill in the wall 
   
         # Make our top-left corner the passed-in location.
+        # TODO: make the top-left corner the passed in location
         self.rect = self.image.get_rect()
-        self.rect.top = y
-        self.rect.left = x
+        self.rect.top = # TODO: fill this in
+        self.rect.left = # TODO: fill this in
 
 # This creates all the walls in room 1
 def setupRoomOne(all_sprites_list):
@@ -82,11 +81,8 @@ def setupRoomOne(all_sprites_list):
               [360,540,126,6]
             ]
      
-    # Loop through the list. Create the wall, add it to the list
-    for item in walls:
-        wall=Wall(item[0],item[1],item[2],item[3],blue)
-        wall_list.add(wall)
-        all_sprites_list.add(wall)
+    # TODO: Loop through the list and assign the coordinates to a wall. 
+    # add it to wall_list and all_sprites_list
          
     # return our new list
     return wall_list
