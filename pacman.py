@@ -352,7 +352,6 @@ background = background.convert()
   
 # TODO Fill the screen with a black background
 
-
 clock = pygame.time.Clock()
 
 pygame.font.init()
@@ -394,27 +393,20 @@ def startGame():
   c_steps = 0
 
 
-  # Create the player paddle object
-  Pacman = Player( w, p_h, "images/Trollman.png" )
-  all_sprites_list.add(Pacman)
-  pacman_collide.add(Pacman)
+  # Create the characters in the game
+  # TODO: create pacman using Player() using location: w, p_h
+  # TODO: add pacman to all_sprites_list
+  # TODO: add pacman to pacman_collide
    
-  Blinky=Ghost( w, b_h, "images/Blinky.png" )
-  monsta_list.add(Blinky)
-  all_sprites_list.add(Blinky)
+  # TODO: create Blinky (a monster) using Player() using location: w, p_h
+  # TODO: add pacman to all_sprites_list
+  # TODO: add Blinky to monsta_list
 
-  Pinky=Ghost( w, m_h, "images/Pinky.png" )
-  monsta_list.add(Pinky)
-  all_sprites_list.add(Pinky)
-   
-  Inky=Ghost( i_w, m_h, "images/Inky.png" )
-  monsta_list.add(Inky)
-  all_sprites_list.add(Inky)
-   
-  Clyde=Ghost( c_w, m_h, "images/Clyde.png" )
-  monsta_list.add(Clyde)
-  all_sprites_list.add(Clyde)
-
+  # TODO: do the same for Pinky
+  # TODO: do the same for Inky 
+  # TODO: do the same for Inky
+  # TODO: do the same for Clyde
+  
   # Draw the grid
   for row in range(19):
       for column in range(19):
@@ -452,25 +444,29 @@ def startGame():
           if event.type == pygame.QUIT:
               done=True
 
+          # TODO: assign the pacman speeds 
+          # depending on the direction using .changespeed
+          # if pacman is moving in a given direction, set the speed to +/- 30
           if event.type == pygame.KEYDOWN:
               if event.key == pygame.K_LEFT:
-                  Pacman.changespeed(-30,0)
+                  
               if event.key == pygame.K_RIGHT:
-                  Pacman.changespeed(30,0)
-              if event.key == pygame.K_UP:
-                  Pacman.changespeed(0,-30)
-              if event.key == pygame.K_DOWN:
-                  Pacman.changespeed(0,30)
 
+              if event.key == pygame.K_UP:
+
+              if event.key == pygame.K_DOWN:
+
+
+          # TODO: same here
           if event.type == pygame.KEYUP:
               if event.key == pygame.K_LEFT:
-                  Pacman.changespeed(30,0)
+                 
               if event.key == pygame.K_RIGHT:
-                  Pacman.changespeed(-30,0)
+
               if event.key == pygame.K_UP:
-                  Pacman.changespeed(0,30)
+
               if event.key == pygame.K_DOWN:
-                  Pacman.changespeed(0,-30)
+
           
       # ALL EVENT PROCESSING SHOULD GO ABOVE THIS COMMENT
    
