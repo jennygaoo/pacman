@@ -1,1 +1,1 @@
-# ripoff-pacman
+# pacman
