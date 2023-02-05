@@ -105,10 +105,12 @@ class Block(pygame.sprite.Sprite):
  
         # Create an image of the block, and fill it with a color.
         # This could also be an image loaded from the disk.
-        self.image = pygame.Surface([width, height])
-        self.image.fill(white)
+        # TODO: create a block with pygame.Surface()
+        # TODO: color the block white using .fill()
+
         self.image.set_colorkey(white)
-        pygame.draw.ellipse(self.image,color,[0,0,width,height])
+
+        # TODO: do pygame.draw.ellipse for drawing the block
  
         # Fetch the rectangle object that has the dimensions of the image
         # image.
@@ -152,14 +154,15 @@ class Player(pygame.sprite.Sprite):
     def update(self,walls,gate):
         # Get the old position, in case we need to go back to it
         
+        # TODO: fill in the code below
         old_x=self.rect.left
-        new_x=old_x+self.change_x
-        prev_x=old_x+self.prev_x
-        self.rect.left = new_x
+        new_x= old_x + # What goes here?
+        prev_x= old_x + self.prev_x
+        self.rect.left = # What does here?
         
-        old_y=self.rect.top
-        new_y=old_y+self.change_y
-        prev_y=old_y+self.prev_y
+        old_y=self.rect.top 
+        new_y=old_y + # What goes here?
+        prev_y=old_y + # What goes here?
 
         # Did this update cause us to hit a wall?
         x_collide = pygame.sprite.spritecollide(self, walls, False)
@@ -333,14 +336,13 @@ cl = len(Clyde_directions)-1
 pygame.init()
   
 # Create an 606x606 sized screen
-screen = pygame.display.set_mode([606, 606])
+# TODO: create the screen using pygame.display.set_mode()
 
 # This is a list of 'sprites.' Each block in the program is
 # added to this list. The list is managed by a class called 'RenderPlain.'
 
 
-# Set the title of the window
-pygame.display.set_caption('Pacman')
+# TODO: Set the title of the window to 'Pacman' using pygame.display.set_caption()
 
 # Create a surface we can draw on
 background = pygame.Surface(screen.get_size())
@@ -348,9 +350,7 @@ background = pygame.Surface(screen.get_size())
 # Used for converting color maps and such
 background = background.convert()
   
-# Fill the screen with a black background
-background.fill(black)
-
+# TODO Fill the screen with a black background
 
 
 clock = pygame.time.Clock()
