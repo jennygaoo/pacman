@@ -418,28 +418,30 @@ def startGame():
   # TODO: do the same for Inky
   # TODO: do the same for Clyde
   
-  # Draw the grid
-  for row in range(19):
-      for column in range(19):
-          if (row == 7 or row == 8) and (column == 8 or column == 9 or column == 10):
-              continue
-          else:
-            block = Block(yellow, 4, 4)
+  # TODO: Draw the a 19x19 grid using nested for loops 
+  # for _ in _       
+        # for _ in _ 
+                # TODO: if the row is 7 or 8 or column is 8, 9, 10 then don't do anything
 
-            # Set a random location for the block
-            block.rect.x = (30*column+6)+26
-            block.rect.y = (30*row+6)+26
+                else:
+                        block = Block(yellow, 4, 4)
 
-            b_collide = pygame.sprite.spritecollide(block, wall_list, False)
-            p_collide = pygame.sprite.spritecollide(block, pacman_collide, False)
-            if b_collide:
-              continue
-            elif p_collide:
-              continue
-            else:
-              # Add the block to the list of objects
-              block_list.add(block)
-              all_sprites_list.add(block)
+                        # Set a random location for the block
+                        block.rect.x = (30*column+6)+26
+                        block.rect.y = (30*row+6)+26
+
+                        b_collide = pygame.sprite.spritecollide(block, wall_list, False)
+
+                        # TODO: create a variable that checks if the pacman and a block collide
+                        p_collide = pygame.sprite.spritecollide(block, pacman_collide, False)
+                        if b_collide:
+                        continue
+                        elif p_collide:
+                        continue
+                        else:
+                        # Add the block to the list of objects
+                        block_list.add(block)
+                        all_sprites_list.add(block)
 
   bll = len(block_list)
 
@@ -485,35 +487,33 @@ def startGame():
       Pacman.update(wall_list,gate)
 
       returned = Pinky.changespeed(Pinky_directions,False,p_turn,p_steps,pl)
-      p_turn = returned[0]
-      p_steps = returned[1]
+      # TODO: update the turn and steps for Pinky
       Pinky.changespeed(Pinky_directions,False,p_turn,p_steps,pl)
       Pinky.update(wall_list,False)
 
       returned = Blinky.changespeed(Blinky_directions,False,b_turn,b_steps,bl)
-      b_turn = returned[0]
-      b_steps = returned[1]
+      # TODO: update the turn and steps for Pinky
       Blinky.changespeed(Blinky_directions,False,b_turn,b_steps,bl)
       Blinky.update(wall_list,False)
 
       returned = Inky.changespeed(Inky_directions,False,i_turn,i_steps,il)
-      i_turn = returned[0]
-      i_steps = returned[1]
+      # TODO: update the turn and steps for Pinky
       Inky.changespeed(Inky_directions,False,i_turn,i_steps,il)
       Inky.update(wall_list,False)
 
       returned = Clyde.changespeed(Clyde_directions,"clyde",c_turn,c_steps,cl)
-      c_turn = returned[0]
-      c_steps = returned[1]
+      # TODO: update the turn and steps for Pinky
       Clyde.changespeed(Clyde_directions,"clyde",c_turn,c_steps,cl)
       Clyde.update(wall_list,False)
 
-      # See if the Pacman block has collided with anything.
-      blocks_hit_list = pygame.sprite.spritecollide(Pacman, block_list, True)
+      # TODO: See if the Pacman block has collided with anything using pygame.sprite.spritecollide
+      #https://www.pygame.org/docs/ref/sprite.html#pygame.sprite.spritecollide
+      # blocks_hit_list = pygame.sprite.spritecollide()
        
-      # Check the list of collisions.
-      if len(blocks_hit_list) > 0:
-          score +=len(blocks_hit_list)
+      # TODO: Check the list of collisions and update the score 
+      if ''' what condition?''' > 0:
+          score += '''what value?'''
+        
       
       # ALL GAME LOGIC SHOULD GO ABOVE THIS COMMENT
    
@@ -528,12 +528,14 @@ def startGame():
       text=font.render("Score: "+str(score)+"/"+str(bll), True, red)
       screen.blit(text, [10, 10])
 
-      if score == bll:
+      # TODO: what condition belongs here?
+      if ''' what condition ? ''':
         doNext("Congratulations, you won!",145,all_sprites_list,block_list,monsta_list,pacman_collide,wall_list,gate)
 
       monsta_hit_list = pygame.sprite.spritecollide(Pacman, monsta_list, False)
 
-      if monsta_hit_list:
+      # TODO: what condition belongs here?
+      if ''' what condition ? ''':
         doNext("Game Over",235,all_sprites_list,block_list,monsta_list,pacman_collide,wall_list,gate)
 
       # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
@@ -552,13 +554,7 @@ def doNext(message,left,all_sprites_list,block_list,monsta_list,pacman_collide,w
           if event.key == pygame.K_ESCAPE:
             pygame.quit()
           if event.key == pygame.K_RETURN:
-            del all_sprites_list
-            del block_list
-            del monsta_list
-            del pacman_collide
-            del wall_list
-            del gate
-            startGame()
+            # TODO: delete all the lists, gate, and restart the game 
 
       #Grey background
       w = pygame.Surface((400,200))  # the size of your rect
