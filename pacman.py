@@ -27,13 +27,15 @@ class Wall(pygame.sprite.Sprite):
   
 
         # TODO: make a wall given the dimensions - use pygame.Surface()
-        # TODO: fill in the wall 
+        self.wall = pygame.Surface((width, height))
+        # TODO: fill in the wall
+        self.wall.fill(color)
   
         # Make our top-left corner the passed-in location.
         # TODO: make the top-left corner the passed in location
-        self.rect = self.image.get_rect()
-        self.rect.top = # TODO: fill this in
-        self.rect.left = # TODO: fill this in
+        self.rect = self.wall.get_rect()
+        self.rect.top = y
+        self.rect.left = x
 
 # This creates all the walls in room 1
 def setupRoomOne(all_sprites_list):
@@ -83,6 +85,10 @@ def setupRoomOne(all_sprites_list):
      
     # TODO: Loop through the list and assign the coordinates to a wall. 
     # add it to wall_list and all_sprites_list
+    for i in walls:
+        wall = Wall(i[0], i[1], i[2], i[3], 'blue')
+        wall_list.append(wall)
+        all_sprites_list.append(wall)
          
     # return our new list
     return wall_list
@@ -106,17 +112,19 @@ class Block(pygame.sprite.Sprite):
         # Create an image of the block, and fill it with a color.
         # This could also be an image loaded from the disk.
         # TODO: create a block with pygame.Surface()
+        self.block = pygame.Surface((width, height))
         # TODO: color the block white using .fill()
-
-        self.image.set_colorkey(white)
+        self.block.fill(white)
+        self.block.set_colorkey(white)
 
         # TODO: do pygame.draw.ellipse for drawing the block
+        pygame.draw.ellipse(self.block, color, [0, 0, width, height])
  
         # Fetch the rectangle object that has the dimensions of the image
         # image.
         # Update the position of this object by setting the values 
         # of rect.x and rect.y
-        self.rect = self.image.get_rect() 
+        self.rect = self.block.get_rect() 
 
 # This class represents the bar at the bottom that the player controls
 class Player(pygame.sprite.Sprite):
@@ -156,13 +164,13 @@ class Player(pygame.sprite.Sprite):
         
         # TODO: fill in the code below
         old_x=self.rect.left
-        new_x= old_x + # What goes here?
+        new_x= old_x + self.change_x
         prev_x= old_x + self.prev_x
-        self.rect.left = # What does here?
+        self.rect.left = new_x
         
         old_y=self.rect.top 
-        new_y=old_y + # What goes here?
-        prev_y=old_y + # What goes here?
+        new_y=old_y + self.change_y
+        prev_y=old_y + self.prev_y
 
         # Did this update cause us to hit a wall?
         x_collide = pygame.sprite.spritecollide(self, walls, False)
@@ -337,12 +345,14 @@ pygame.init()
   
 # Create an 606x606 sized screen
 # TODO: create the screen using pygame.display.set_mode()
+screen = pygame.display.set_mode((606, 606))
 
 # This is a list of 'sprites.' Each block in the program is
 # added to this list. The list is managed by a class called 'RenderPlain.'
 
 
 # TODO: Set the title of the window to 'Pacman' using pygame.display.set_caption()
+screen.set_caption('Pac-Man')
 
 # Create a surface we can draw on
 background = pygame.Surface(screen.get_size())
@@ -351,6 +361,7 @@ background = pygame.Surface(screen.get_size())
 background = background.convert()
   
 # TODO Fill the screen with a black background
+background.fill(black)
 
 clock = pygame.time.Clock()
 
