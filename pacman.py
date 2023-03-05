@@ -10,13 +10,15 @@ blue = (0,0,255)
 green = (0,255,0)
 red = (255,0,0)
 purple = (255,0,255)
-yellow   = ( 255, 255,   0)
+yellow   = ( 255, 255, 0)
 
 Trollicon=pygame.image.load('images/Trollman.png')
 pygame.display.set_icon(Trollicon)
 
 #Add music
-# TODO: initialize, load, and play the music
+pygame.mixer.init()
+pygame.mixer.music.load('pacman.mp3')
+pygame.mixer.music.play(-1, 0.0)
 
 # This class represents the bar at the bottom that the player controls
 class Wall(pygame.sprite.Sprite):
@@ -25,14 +27,12 @@ class Wall(pygame.sprite.Sprite):
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
   
-
-        # TODO: make a wall given the dimensions - use pygame.Surface()
-        self.wall = pygame.Surface((width, height))
-        # TODO: fill in the wall 
-        self.wall.fill(color)
+        # Make a blue wall, of the size specified in the parameters
+        self.image = pygame.Surface([width, height])
+        self.image.fill(color)
+  
         # Make our top-left corner the passed-in location.
-        # TODO: make the top-left corner the passed in location
-        self.rect = self.wall.get_rect()
+        self.rect = self.image.get_rect()
         self.rect.top = y
         self.rect.left = x
 
@@ -82,12 +82,13 @@ def setupRoomOne(all_sprites_list):
               [360,540,126,6]
             ]
      
-    # TODO: Loop through the list and assign the coordinates to a wall. 
-    # add it to wall_list and all_sprites_list
-    for i in walls:
-        wall = Wall(i[0],i[1],i[2],i[3], 'blue')
+    # Loop through the list. Create the wall, add it to the list
+    for item in walls:
+        wall=Wall(item[0],item[1],item[2],item[3],blue)
         wall_list.add(wall)
         all_sprites_list.add(wall)
+         
+    # return our new list
     return wall_list
 
 def setupGate(all_sprites_list):
@@ -108,19 +109,16 @@ class Block(pygame.sprite.Sprite):
  
         # Create an image of the block, and fill it with a color.
         # This could also be an image loaded from the disk.
-        # TODO: create a block with pygame.Surface()
-        self.block = pygame.Surface((width, height))
-        # TODO: color the block white using .fill()
-        self.block.fill(white)
-        self.block.set_colorkey(white)
-
-        # TODO: do pygame.draw.ellipse for drawing the block
-        pygame.draw.ellipse(self.block, color, (0, 0, width, height))
+        self.image = pygame.Surface([width, height])
+        self.image.fill(white)
+        self.image.set_colorkey(white)
+        pygame.draw.ellipse(self.image,color,[0,0,width,height])
+ 
         # Fetch the rectangle object that has the dimensions of the image
         # image.
         # Update the position of this object by setting the values 
         # of rect.x and rect.y
-        self.rect = self.block.get_rect() 
+        self.rect = self.image.get_rect() 
 
 # This class represents the bar at the bottom that the player controls
 class Player(pygame.sprite.Sprite):
@@ -158,15 +156,14 @@ class Player(pygame.sprite.Sprite):
     def update(self,walls,gate):
         # Get the old position, in case we need to go back to it
         
-        # TODO: fill in the code below
         old_x=self.rect.left
-        new_x= old_x + self.change_x
-        prev_x= old_x + self.prev_x
+        new_x=old_x+self.change_x
+        prev_x=old_x+self.prev_x
         self.rect.left = new_x
         
-        old_y=self.rect.top 
-        new_y=old_y + self.change_y
-        prev_y=old_y + self.prev_y
+        old_y=self.rect.top
+        new_y=old_y+self.change_y
+        prev_y=old_y+self.prev_y
 
         # Did this update cause us to hit a wall?
         x_collide = pygame.sprite.spritecollide(self, walls, False)
@@ -340,27 +337,30 @@ cl = len(Clyde_directions)-1
 pygame.init()
   
 # Create an 606x606 sized screen
-# TODO: create the screen using pygame.display.set_mode()
 screen = pygame.display.set_mode([606, 606])
+
 # This is a list of 'sprites.' Each block in the program is
 # added to this list. The list is managed by a class called 'RenderPlain.'
 
 
-# TODO: Set the title of the window to 'Pacman' using pygame.display.set_caption()
-pygame.display.set_caption('Pac-Man')
+# Set the title of the window
+pygame.display.set_caption('Pacman')
+
 # Create a surface we can draw on
 background = pygame.Surface(screen.get_size())
 
 # Used for converting color maps and such
 background = background.convert()
   
-# TODO Fill the screen with a black background
+# Fill the screen with a black background
 background.fill(black)
+
+
+
 clock = pygame.time.Clock()
 
 pygame.font.init()
 font = pygame.font.Font("freesansbold.ttf", 24)
-
 
 #default locations for Pacman and monstas
 w = 303-16 #Width
@@ -398,57 +398,49 @@ def startGame():
   c_steps = 0
 
 
-  # Create the characters in the game
-  # TODO: create pacman using Player() using location: w, p_h
-  Pacman = Player(w, b_h, 'images/Trollman.png')
-
-  # TODO: add pacman to all_sprites_list
+  # Create the player paddle object
+  Pacman = Player( w, p_h, "images/Trollman.png" )
   all_sprites_list.add(Pacman)
-  # TODO: add pacman to pacman_collide
   pacman_collide.add(Pacman)
-  # TODO: create Blinky (a monster) using Player() using location: w, p_h
-  Blinky = Ghost(w, b_h, 'images/Blinky.png')
-  # TODO: add pacman to all_sprites_list
-  all_sprites_list.add(Blinky)
-  # TODO: add Blinky to monsta_list
+   
+  Blinky=Ghost( w, b_h, "images/Blinky.png" )
   monsta_list.add(Blinky)
-  # TODO: do the same for Pinky
-  Pinky = Ghost(w, b_h, 'images/Pinky.png')
-  all_sprites_list.add(Pinky)
+  all_sprites_list.add(Blinky)
+
+  Pinky=Ghost( w, m_h, "images/Pinky.png" )
   monsta_list.add(Pinky)
-  # TODO: do the same for Inky 
-  Inky = Ghost(w, b_h, 'images/Inky.png')
-  all_sprites_list.add(Inky)
+  all_sprites_list.add(Pinky)
+   
+  Inky=Ghost( i_w, m_h, "images/Inky.png" )
   monsta_list.add(Inky)
-  # TODO: do the same for Clyde
-  Clyde = Ghost(w, b_h, 'images/Clyde.png')
-  all_sprites_list.add(Clyde)
+  all_sprites_list.add(Inky)
+   
+  Clyde=Ghost( c_w, m_h, "images/Clyde.png" )
   monsta_list.add(Clyde)
+  all_sprites_list.add(Clyde)
+
   # Draw the grid
-  # TODO: Draw the a 19x19 grid using nested for loops 
-  for row in range(19):       
-         for column in range(19):
-                # TODO: if the row is 7 or 8 or column is 8, 9, 10 then don't do anything
-                    if(row == 7 or row == 8 or column == 8 or column == 9 or column == 10):
-                        continue
-                    else:
-                        block = Block(yellow, 4, 4)
+  for row in range(19):
+      for column in range(19):
+          if (row == 7 or row == 8) and (column == 8 or column == 9 or column == 10):
+              continue
+          else:
+            block = Block(yellow, 4, 4)
 
-                        # Set a random location for the block
-                        block.rect.x = (30*column+6)+26
-                        block.rect.y = (30*row+6)+26
+            # Set a random location for the block
+            block.rect.x = (30*column+6)+26
+            block.rect.y = (30*row+6)+26
 
-                        b_collide = pygame.sprite.spritecollide(block, wall_list, False)
-
-                        p_collide = pygame.sprite.spritecollide(block, pacman_collide, False)
-                        if b_collide:
-                          continue
-                        elif p_collide:
-                          continue
-                        else:
-                        # Add the block to the list of objects
-                            block_list.add(block)
-                            all_sprites_list.add(block)
+            b_collide = pygame.sprite.spritecollide(block, wall_list, False)
+            p_collide = pygame.sprite.spritecollide(block, pacman_collide, False)
+            if b_collide:
+              continue
+            elif p_collide:
+              continue
+            else:
+              # Add the block to the list of objects
+              block_list.add(block)
+              all_sprites_list.add(block)
 
   bll = len(block_list)
 
@@ -464,29 +456,25 @@ def startGame():
           if event.type == pygame.QUIT:
               done=True
 
-          # TODO: assign the pacman speeds 
-          # depending on the direction using .changespeed
-          # if pacman is moving in a given direction, set the speed to +/- 30
           if event.type == pygame.KEYDOWN:
               if event.key == pygame.K_LEFT:
-                Pacman.changespeed(-30, 0)    
+                  Pacman.changespeed(-30,0)
               if event.key == pygame.K_RIGHT:
-                Pacman.changespeed(30, 0)
+                  Pacman.changespeed(30,0)
               if event.key == pygame.K_UP:
-                Pacman.changespeed(0, 30)
+                  Pacman.changespeed(0,-30)
               if event.key == pygame.K_DOWN:
-                Pacman.changespeed(0, -30)
+                  Pacman.changespeed(0,30)
 
-          # TODO: same here
           if event.type == pygame.KEYUP:
               if event.key == pygame.K_LEFT:
-                pacman.changespeed(30, 0)
+                  Pacman.changespeed(30,0)
               if event.key == pygame.K_RIGHT:
-                pacman.changespeed(-30, 0)
+                  Pacman.changespeed(-30,0)
               if event.key == pygame.K_UP:
-                pacman.changespeed(0, -30)
+                  Pacman.changespeed(0,30)
               if event.key == pygame.K_DOWN:
-                pacman.changespeed(0, 30)
+                  Pacman.changespeed(0,-30)
           
       # ALL EVENT PROCESSING SHOULD GO ABOVE THIS COMMENT
    
@@ -522,7 +510,7 @@ def startGame():
        
       # Check the list of collisions.
       if len(blocks_hit_list) > 0:
-          score +- len(blocks_hit_list)
+          score +=len(blocks_hit_list)
       
       # ALL GAME LOGIC SHOULD GO ABOVE THIS COMMENT
    
@@ -537,7 +525,7 @@ def startGame():
       text=font.render("Score: "+str(score)+"/"+str(bll), True, red)
       screen.blit(text, [10, 10])
 
-      if score == len(block_list):
+      if score == bll:
         doNext("Congratulations, you won!",145,all_sprites_list,block_list,monsta_list,pacman_collide,wall_list,gate)
 
       monsta_hit_list = pygame.sprite.spritecollide(Pacman, monsta_list, False)
